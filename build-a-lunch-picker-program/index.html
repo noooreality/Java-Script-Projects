@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lunch Menu Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+    }
+    input, button {
+      margin: 5px 0;
+      padding: 10px;
+      font-size: 1em;
+      width: 100%;
+    }
+    button {
+      cursor: pointer;
+    }
+    #log {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 5px;
+      min-height: 60px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Lunch Menu Manager</h2>
+
+  <input type="text" id="lunchInput" placeholder="Enter lunch item" />
+
+  <button onclick="addLunchToStart(lunches, getInputValue())">Add to Start</button>
+  <button onclick="addLunchToEnd(lunches, getInputValue())">Add to End</button>
+  <button onclick="removeFirstLunch(lunches)">Remove from Start</button>
+  <button onclick="removeLastLunch(lunches)">Remove from End</button>
+  <button onclick="getRandomLunch(lunches)">Get Random Lunch</button>
+  <button onclick="showLunchMenu(lunches)">Show Menu</button>
+
+  <div id="log"></div>
+
+  <script>
+    let lunches = [];
+
+    function getInputValue() {
+      const input = document.getElementById("lunchInput");
+      const value = input.value.trim();
+      input.value = "";
+      return value;
+    }
+
+    function logMessage(message) {
+      const log = document.getElementById("log");
+      log.textContent = message;
+    }
+
+    function addLunchToEnd(array, lunchItem) {
+      if (!lunchItem) return logMessage("Please enter a lunch item.");
+      array.push(lunchItem);
+      logMessage(`${lunchItem} added to the end of the lunch menu.`);
+      return array;
+    }
+
+    function addLunchToStart(array, lunchItem) {
+      if (!lunchItem) return logMessage("Please enter a lunch item.");
+      array.unshift(lunchItem);
+      logMessage(`${lunchItem} added to the start of the lunch menu.`);
+      return array;
+    }
+
+    function removeLastLunch(array) {
+      if (array.length === 0) {
+        return logMessage("No lunches to remove.");
+      }
+      const removed = array.pop();
+      logMessage(`${removed} removed from the end of the lunch menu.`);
+      return array;
+    }
+
+    function removeFirstLunch(array) {
+      if (array.length === 0) {
+        return logMessage("No lunches to remove.");
+      }
+      const removed = array.shift();
+      logMessage(`${removed} removed from the start of the lunch menu.`);
+      return array;
+    }
+
+    function getRandomLunch(array) {
+      if (array.length === 0) {
+        return logMessage("No lunches available.");
+      }
+      const randomIndex = Math.floor(Math.random() * array.length);
+      const lunch = array[randomIndex];
+      logMessage(`Randomly selected lunch: ${lunch}`);
+    }
+
+    function showLunchMenu(array) {
+      if (array.length === 0) {
+        return logMessage("The menu is empty.");
+      }
+      logMessage("Menu items: " + array.join(", "));
+    }
+  </script>
+</body>
+</html>

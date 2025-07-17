@@ -106,5 +106,10 @@ function showQuestion(question) {
   resultEl.textContent = "";
 }
 
+newQuestionBtn.addEventListener("click", () => {
+  currentQuestion = getRandomQuestion(questions);
+  showQuestion(currentQuestion);
+});
+
 currentQuestion = getRandomQuestion(questions);
 showQuestion(currentQuestion);

@@ -67,25 +67,44 @@ function showQuestion(question) {
   questionEl.textContent = question.question;
   choicesEl.innerHTML = "";
 
+  let answered = false;
+
   question.choices.forEach(choice => {
     const btn = document.createElement("button");
     btn.textContent = choice;
+
     btn.addEventListener("click", () => {
+      if (answered) return;
+      answered = true;
+
       const computerChoice = getRandomComputerChoice(question.choices);
       computerChoiceEl.textContent = `Computer's choice: ${computerChoice}`;
-      resultEl.textContent = getResults(question, computerChoice);
+
+      const resultText = getResults(question, computerChoice);
+      resultEl.textContent = resultText;
+
+      if (choice === question.answer) {
+        btn.style.backgroundColor = "#28a745";
+      } else {
+        btn.style.backgroundColor = "#dc3545";
+        Array.from(choicesEl.children).forEach(b => {
+          if (b.textContent === question.answer) {
+            b.style.backgroundColor = "#28a745";
+          }
+        });
+      }
+
+      Array.from(choicesEl.children).forEach(b => {
+        b.disabled = true;
+      });
     });
+
     choicesEl.appendChild(btn);
   });
 
   computerChoiceEl.textContent = "";
   resultEl.textContent = "";
 }
-
-newQuestionBtn.addEventListener("click", () => {
-  currentQuestion = getRandomQuestion(questions);
-  showQuestion(currentQuestion);
-});
 
 currentQuestion = getRandomQuestion(questions);
 showQuestion(currentQuestion);
